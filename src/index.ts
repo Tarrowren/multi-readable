@@ -52,9 +52,6 @@ export class MultiBufferReadable extends Readable {
 
         if (size === 0) {
           size = await sizePromise;
-          if (size === 0) {
-            throw new Error("read size is zero");
-          }
         }
 
         cache = cache ? Buffer.concat([cache, chunk]) : chunk;
@@ -93,9 +90,15 @@ export class MultiBufferReadable extends Readable {
 
   async #getSize() {
     try {
-      return await new Promise<number>((resolve) => {
+      const size = await new Promise<number>((resolve) => {
         this.#read = resolve;
       });
+
+      if (size <= 0) {
+        throw new Error("read size value error");
+      }
+
+      return size;
     } finally {
       this.#read = null;
     }
@@ -104,5 +107,3 @@ export class MultiBufferReadable extends Readable {
 
 export interface MultiBufferReadableOptions
   extends Omit<ReadableOptions, "objectMode"> {}
-
-export class MultiObjectReadable extends Readable {}
