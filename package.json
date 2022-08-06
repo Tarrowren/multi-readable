@@ -1,6 +1,6 @@
 {
   "name": "multi-readable",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Serial connecting readable streams, strictly following the back pressure and highWaterMark",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
